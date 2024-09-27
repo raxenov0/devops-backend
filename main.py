@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json
 import os
 
@@ -18,7 +18,21 @@ def write_json_file(filename, data):
 
 @app.route('/')
 def indexTemplate():
-    return render_template('index.html')
+    data = read_json_file('db.json')
+    users_string = ""
+    for user in data:
+        users_string += f"{user['name']}-{user['email']}\n"
+
+    return render_template('index.html', data = users_string)
+
+@app.route('/get-users', methods = ["GET"])
+def getUsers():
+    data = read_json_file('db.json')
+    users_string = ""
+    for user in data:
+        users_string += f"{user['name']}-{user['email']}\n"
+
+    return render_template('index.html', data = users_string)
 
 @app.route('/create-user', methods = ["POST"])
 def createUser():
