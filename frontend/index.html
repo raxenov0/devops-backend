@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend</title>
+</head>
+<body>
+    <input type="text" id="inputText" placeholder="Введите данные">
+    <button onclick="sendData()">Отправить</button>
+    <button onclick="getData()">Получить данные</button>
+    <textarea id="outputText" placeholder="Полученные данные" rows="5" cols="30"></textarea>
+
+    <script>
+        function sendData() {
+            const text = document.getElementById("inputText").value;
+            fetch("http://localhost:8080/data", {  // Используйте внутреннее имя сервиса
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: text
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Данные успешно отправлены");
+                    document.getElementById("inputText").value = ""; // очищаем поле ввода
+                } else {
+                    console.error("Ошибка при отправке данных", response.status);
+                }
+            })
+            .catch(error => console.error("Ошибка при отправке данных", error));
+        }
+
+        function getData() {
+            fetch("http://localhost:8080/data")  // Используйте внутреннее имя сервиса
+            .then(response => {
+                if (!response.ok) {
+                    console.error("Ошибка при получении данных", response.status);
+                    throw new Error("Сетевая ошибка");
+                }
+                return response.text();  // Получаем текст ответа
+            })
+            .then(data => {
+                document.getElementById("outputText").value = data; // Отображаем данные в текстовой области
+                console.log("Полученные данные:", data);  // Логирование полученных данных
+            })
+            .catch(error => console.error("Ошибка при получении данных", error));
+        }
+    </script>
+</body>
+</html>

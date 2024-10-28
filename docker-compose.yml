@@ -1,0 +1,29 @@
+   version: '3.8'
+
+   services:
+     backend:
+       build:
+         context: ./backend
+         dockerfile: Dockerfile
+       networks:
+         - my_network  # Подключаем к сети
+       volumes:
+         - data-volume:/app/data  # Сохраняем данные вне контейнера
+       restart: always  # Автоматический перезапуск контейнера
+
+     frontend:
+       build:
+         context: ./frontend
+         dockerfile: Dockerfile
+       depends_on:
+         - backend  # Зависимость от backend
+       networks:
+         - my_network  # Подключаем к сети
+       restart: always  # Автоматический перезапуск контейнера
+
+   volumes:
+     data-volume:  # Определяем volume для сохранения данных
+
+   networks:
+     my_network:  # Создаем новую сеть
+       driver: bridge  # Используем драйвер bridge для сети
