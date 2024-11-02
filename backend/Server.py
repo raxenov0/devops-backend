@@ -21,8 +21,8 @@ def get_data():
            print(f"Sending data: {data.decode('utf-8')}")
            return data, 200
        else:
-           print("File not found")
-           return 'File not found', 404
+           print("ОШИБКА 404")
+           return 'ОШИБКА 404', 404
 
 if __name__ == "__main__":
        app.run(host='0.0.0.0', port=8080)  # Убедитесь, что хост установлен на '0.0.0.0'

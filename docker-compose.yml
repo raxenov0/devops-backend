@@ -6,24 +6,24 @@
          context: ./backend
          dockerfile: Dockerfile
        networks:
-         - my_network  # Подключаем к сети
+         - my_network  
        volumes:
-         - data-volume:/app/data  # Сохраняем данные вне контейнера
-       restart: always  # Автоматический перезапуск контейнера
+         - data-volume:/app/data  
+       restart: always  
 
      frontend:
        build:
          context: ./frontend
          dockerfile: Dockerfile
        depends_on:
-         - backend  # Зависимость от backend
+         - backend  
        networks:
-         - my_network  # Подключаем к сети
-       restart: always  # Автоматический перезапуск контейнера
+         - my_network  
+       restart: always  
 
    volumes:
-     data-volume:  # Определяем volume для сохранения данных
+     data-volume: 
 
    networks:
-     my_network:  # Создаем новую сеть
-       driver: bridge  # Используем драйвер bridge для сети
+     my_network:
+       driver: bridge  
